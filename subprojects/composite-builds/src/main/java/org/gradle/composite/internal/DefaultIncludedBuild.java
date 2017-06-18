@@ -89,21 +89,21 @@ public class DefaultIncludedBuild implements IncludedBuildInternal {
     }
 
     @Override
-    public SettingsInternal getLoadedSettings() {
+    public synchronized SettingsInternal getLoadedSettings() {
         return getGradleLauncher().getLoadedSettings();
     }
 
     @Override
-    public GradleInternal getConfiguredBuild() {
+    public synchronized GradleInternal getConfiguredBuild() {
         return getGradleLauncher().getConfiguredBuild();
     }
 
     @Override
-    public void finishBuild() {
+    public synchronized void finishBuild() {
         getGradleLauncher().finishBuild();
     }
 
-    public void addTasks(Iterable<String> taskPaths) {
+    public synchronized void addTasks(Iterable<String> taskPaths) {
         getGradleLauncher().scheduleTasks(taskPaths);
     }
 
@@ -115,7 +115,7 @@ public class DefaultIncludedBuild implements IncludedBuildInternal {
     }
 
     @Override
-    public void execute(final Iterable<String> tasks, final Object listener) {
+    public synchronized void execute(final Iterable<String> tasks, final Object listener) {
         final GradleLauncher launcher = getGradleLauncher();
         launcher.addListener(listener);
         launcher.scheduleTasks(tasks);
